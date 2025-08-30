@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Athena AI - Modern AI Assistant with Advanced Capabilities">
+    <meta name="keywords" content="AI assistant, chat interface, modern UI, productivity">
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Athena AI">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+
+    <!-- Code highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <title>Athena AI - AI Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+
+    <!-- Main Application -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <button id="sidebar-toggle" class="header-btn" title="Toggle Sidebar">
+                    <i data-lucide="menu"></i>
+                </button>
+                <div class="brand">
+                    <span class="brand-icon">🧠</span>
+                    <span class="brand-text">Athena AI</span>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <div class="model-selector">
+                    <select id="quick-model-select" class="model-select">
+                        <option value="gpt-4">GPT-4</option>
+                        <option value="claude-3">Claude 3</option>
+                        <option value="gemini">Gemini</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <button id="theme-toggle" class="header-btn" title="Toggle Theme">
+                    <i data-lucide="moon"></i>
+                </button>
+                <button id="settings-toggle" class="header-btn" title="Settings">
+                    <i data-lucide="settings"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-section">
+                    <button id="new-chat" class="new-chat-btn">
+                        <i data-lucide="plus"></i>
+                        <span>New Chat</span>
+                    </button>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="section-title">Recent Chats</h3>
+                    <div class="conversation-list" id="conversation-list">
+                        <!-- Conversations will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">User</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Screen -->
+            <div class="welcome-screen" id="welcome-screen">
+                <div class="welcome-content">
+                    <div class="welcome-header">
+                        <h1>Welcome to Athena AI</h1>
+                        <p>Your intelligent AI assistant ready to help with any task</p>
+                    </div>
+
+                    <div class="capabilities">
+                        <div class="capability-card">
+                            <div class="capability-icon">
+                                <i data-lucide="search"></i>
+                            </div>
+                            <h3>Research & Search</h3>
+                            <p>Get real-time information from the web</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="capability-icon">
+                                <i data-lucide="code"></i>
+                            </div>
+                            <h3>Code & Development</h3>
+                            <p>Write, debug, and execute code safely</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="capability-icon">
+                                <i data-lucide="bar-chart-3"></i>
+                            </div>
+                            <h3>Data Analysis</h3>
+                            <p>Analyze data and create visualizations</p>
+                        </div>
+                        <div class="capability-card">
+                            <div class="capability-icon">
+                                <i data-lucide="file-text"></i>
+                            </div>
+                            <h3>Document Processing</h3>
+                            <p>Process and analyze various file formats</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-starters">
+                        <h3>Quick Starters</h3>
+                        <div class="starter-buttons">
+                            <button class="starter-btn" data-prompt="Help me research the latest developments in AI">
+                                <i data-lucide="trending-up"></i>
+                                Research AI trends
+                            </button>
+                            <button class="starter-btn" data-prompt="Create a simple data visualization">
+                                <i data-lucide="bar-chart"></i>
+                                Create visualization
+                            </button>
+                            <button class="starter-btn" data-prompt="Help me write a JavaScript function">
+                                <i data-lucide="code-2"></i>
+                                Code assistance
+                            </button>
+                            <button class="starter-btn" data-prompt="Explain a complex topic in simple terms">
+                                <i data-lucide="lightbulb"></i>
+                                Explain concepts
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-area" id="chat-area" style="display: none;">
+                <div class="messages-container" id="messages-container">
+                    <div class="messages" id="messages">
+                        <!-- Messages will be populated here -->
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typing-indicator">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span>AI is thinking...</span>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-container">
+                    <div class="file-drop-zone" id="file-drop-zone">
+                        <i data-lucide="upload-cloud"></i>
+                        <p>Drop files here to analyze</p>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <button id="attach-file" class="input-btn" title="Attach File">
+                            <i data-lucide="paperclip"></i>
+                        </button>
+
+                        <div class="textarea-container">
+                            <textarea id="user-input" placeholder="Ask me anything..." rows="1"
+                                maxlength="5000"></textarea>
+                            <div class="input-actions">
+                                <button id="voice-input" class="input-btn voice-btn" title="Voice Input">
+                                    <i data-lucide="mic"></i>
+                                </button>
+                                <button id="send-message" class="send-btn" title="Send Message">
+                                    <i data-lucide="send"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-footer">
+                        <div class="input-info">
+                            <span class="char-count"><span id="char-count">0</span>/5000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close" id="close-settings" aria-label="Close Settings">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="settings-tabs">
+                    <button class="tab-btn active" data-tab="api">API Configuration</button>
+                    <button class="tab-btn" data-tab="ui">Interface</button>
+                    <button class="tab-btn" data-tab="voice">Voice</button>
+                    <button class="tab-btn" data-tab="advanced">Advanced</button>
+                </div>
+
+                <!-- API Configuration Tab -->
+                <div class="tab-content active" id="api-tab">
+                    <div class="form-group">
+                        <label for="llm-provider">LLM Provider</label>
+                        <select id="llm-provider" class="form-control">
+                            <option value="aipipe">AI Pipe (aipipe.org)</option>
+                            <option value="openai">OpenAI GPT</option>
+                            <option value="anthropic">Anthropic Claude</option>
+                            <option value="google">Google Gemini</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="api-key">API Key / Token</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="api-key" class="form-control" placeholder="Enter your API key">
+                            <button class="toggle-visibility" type="button" aria-label="Toggle API key visibility">
+                                <i data-lucide="eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="model-name">Model</label>
+                        <select id="model-name" class="form-control">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max-tokens">Max Tokens</label>
+                        <input type="number" id="max-tokens" class="form-control" value="2000" min="100" max="8000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">Temperature</label>
+                        <input type="range" id="temperature" class="form-range" min="0" max="2" step="0.1" value="0.7">
+                        <span class="range-value">0.7</span>
+                    </div>
+                </div>
+
+                <!-- Interface Tab -->
+                <div class="tab-content" id="ui-tab">
+                    <div class="form-group">
+                        <label>Theme</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="theme" value="auto" checked>
+                                <span>Auto (System)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="theme" value="light">
+                                <span>Light</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="theme" value="dark">
+                                <span>Dark</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="animations-enabled" checked>
+                            <span>Enable Animations</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="sound-enabled">
+                            <span>Sound Effects</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="font-size">Font Size</label>
+                        <select id="font-size" class="form-control">
+                            <option value="small">Small</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Voice Tab -->
+                <div class="tab-content" id="voice-tab">
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="voice-enabled">
+                            <span>Enable Voice Input</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="voice-output-enabled">
+                            <span>Enable Voice Output</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="voice-language">Language</label>
+                        <select id="voice-language" class="form-control">
+                            <option value="en-US">English (US)</option>
+                            <option value="en-GB">English (UK)</option>
+                            <option value="es-ES">Spanish</option>
+                            <option value="fr-FR">French</option>
+                            <option value="de-DE">German</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="speech-rate">Speech Rate</label>
+                        <input type="range" id="speech-rate" class="form-range" min="0.5" max="2" step="0.1" value="1">
+                        <span class="range-value">1x</span>
+                    </div>
+                </div>
+
+                <!-- Advanced Tab -->
+                <div class="tab-content" id="advanced-tab">
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="auto-save" checked>
+                            <span>Auto-save Conversations</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="analytics-enabled">
+                            <span>Enable Analytics</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max-history">Max Conversation History</label>
+                        <input type="number" id="max-history" class="form-control" value="100" min="10" max="1000">
+                    </div>
+
+                    <div class="form-group">
+                        <button id="clear-all-data" class="btn btn-danger">
+                            <i data-lucide="trash-2"></i>
+                            Clear All Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="export-settings" class="btn btn-secondary">
+                    <i data-lucide="download"></i>
+                    Export Settings
+                </button>
+                <button id="import-settings" class="btn btn-secondary">
+                    <i data-lucide="upload"></i>
+                    Import Settings
+                </button>
+                <button id="save-settings" class="btn btn-primary">
+                    <i data-lucide="save"></i>
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container">
+        <!-- Toast messages will be added here -->
+    </div>
+
+    <!-- Context Menu -->
+    <div id="context-menu" class="context-menu">
+        <div class="context-item" data-action="copy">
+            <i data-lucide="copy"></i> Copy
+        </div>
+        <div class="context-item" data-action="edit">
+            <i data-lucide="edit"></i> Edit
+        </div>
+        <div class="context-item" data-action="delete">
+            <i data-lucide="trash"></i> Delete
+        </div>
+        <div class="context-item" data-action="bookmark">
+            <i data-lucide="bookmark"></i> Bookmark
+        </div>
+    </div>
+
+    <!-- File Input -->
+    <input type="file" id="file-input" multiple accept=".txt,.json,.csv,.md,.js,.py,.html,.css" style="display: none;">
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="agent.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Lucide icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            // Initialize highlight.js if present
+            if (window.hljs && typeof hljs.highlightAll === 'function') {
+                hljs.highlightAll();
+            }
+        });
+    </script>
+</body>
+
+</html>
