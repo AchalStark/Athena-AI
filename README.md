@@ -1,4 +1,4 @@
-# � Aythena AI - Advanced Browser-Based AI Assistant
+# � Athena AI - Advanced Browser-Based AI Assistant
 
 **Live Demo:** [https://athena-ai-weld.vercel.app/](https://athena-ai-weld.vercel.app/)
 
